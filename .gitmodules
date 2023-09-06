@@ -1,0 +1,9 @@
+[submodule "Spoons/Lunette"]
+	path = Spoons/Lunette
+	url = https://github.com/scottwhudson/Lunette
+[submodule "submodules/Lunette"]
+	path = submodules/Lunette
+	url = https://github.com/scottwhudson/Lunette
+[submodule "submodules/Hyper.spoon"]
+	path = submodules/Hyper.spoon
+	url = https://github.com/evantravers/Hyper.spoon
