@@ -84,6 +84,13 @@ local modes = {
 					hs.alert('Dashlane'); App.launchOrFocus('Dashlane')
 				end
 			},
+			{
+				key = 'n',
+				mod = {},
+				callback = function()
+					hs.alert('Notes'); App.launchOrFocus('Notes')
+				end
+			},
 		},
 	},
 	{
