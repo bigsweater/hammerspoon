@@ -14,6 +14,7 @@ function module:new()
 end
 
 function module:start()
+	self.handler()
 	self.watcher = hs.screen.watcher.new(self.handler):start()
 	return self
 end
@@ -29,20 +30,22 @@ function module.handler()
 end
 
 function module:startMonitorControl()
-	local mc = hs.application.get('MonitorControl')
-
-	if (mc and mc:isRunning()) then
-		self.mc = mc
-	else
-		self.mc = hs.application.open('MonitorControl')
-	end
+	self.mc = hs.application.open('MonitorControl')
+	self.mc:hide()
 
 	return self
 end
 
 function module:stopMonitorControl()
-	if self.mc then
-		self.mc:kill()
+	local mc = self.mc or hs.application.get('MonitorControl')
+
+	if not mc then
+		self.mc = nil
+		return self
+	end
+
+	if mc.kill then
+		mc:kill()
 	end
 
 	self.mc = nil

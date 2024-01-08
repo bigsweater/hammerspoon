@@ -117,7 +117,7 @@ function Dropbox.isInGitRepo(path)
 	return status or false
 end
 
---- Runs `git check-ginroe` inside a file (or its parent) to determine if the path
+--- Runs `git check-ignroe` inside a file (or its parent) to determine if the path
 --- inside the directory or the parent of the file. Returns true if the file is
 --- gitignored. Should return false if file is not in git repo.
 --- @param path string The path to check.

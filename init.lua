@@ -122,3 +122,6 @@ dropbox:new():start()
 
 local mc = require('monitorcontrol')
 mc:new():start()
+
+local linearmouse = require('linearmouse')
+linearmouse:new():start()
