@@ -4,6 +4,7 @@
 ---@field watcher hs.screen.watcher? The Hammerspoon Screen Watcher.
 local module = {}
 module.mc = nil
+module.watcher = nil
 
 function module:new()
 	local instance = {}
@@ -30,7 +31,7 @@ function module.handler()
 end
 
 function module:startMonitorControl()
-	self.mc = hs.application.open('MonitorControl')
+	self.mc = hs.application.open('MonitorControl', 0, true)
 	self.mc:hide()
 
 	return self

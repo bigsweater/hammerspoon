@@ -15,13 +15,14 @@ function module:new()
 end
 
 function module:start()
-	if (module:checkForBasilisk()) then
+	if (module:isBasiliskAttached()) then
 		self:startLinearMouse()
 	else
 		self:stopLinearMouse()
 	end
 
 	self.watcher = hs.usb.watcher.new(self.handler):start()
+
 	return self
 end
 
@@ -42,7 +43,7 @@ function module.handler(event)
 	end
 end
 
-function module:checkForBasilisk()
+function module:isBasiliskAttached()
 	local devices = hs.usb.attachedDevices()
 
 	if not devices then
@@ -62,7 +63,7 @@ function module:checkForBasilisk()
 end
 
 function module:startLinearMouse()
-	self.linearmouse = hs.application.open('LinearMouse')
+	self.linearmouse = hs.application.open('LinearMouse', 0, true)
 	self.linearmouse:hide()
 
 	return self
