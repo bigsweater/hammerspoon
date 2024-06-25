@@ -6,6 +6,8 @@ local module = {}
 module.mc = nil
 module.watcher = nil
 
+local logger = hs.logger.new('monitorcontrol', 'info')
+
 function module:new()
 	local instance = {}
 	setmetatable(instance, self)
@@ -15,8 +17,9 @@ function module:new()
 end
 
 function module:start()
-	self.handler()
 	self.watcher = hs.screen.watcher.new(self.handler):start()
+	self.handler()
+
 	return self
 end
 
@@ -31,16 +34,24 @@ function module.handler()
 end
 
 function module:startMonitorControl()
+	logger.i('Starting MonitorControl...')
+
 	self.mc = hs.application.open('MonitorControl', 0, true)
 	self.mc:hide()
+
+	logger.i('MonitorControl started.')
 
 	return self
 end
 
 function module:stopMonitorControl()
+	logger.i('Stopping MonitorControl...')
+
 	local mc = self.mc or hs.application.get('MonitorControl')
 
 	if not mc then
+		logger.i('MonitorControl not running.')
+
 		self.mc = nil
 		return self
 	end
@@ -50,6 +61,8 @@ function module:stopMonitorControl()
 	end
 
 	self.mc = nil
+
+	logger.i('MonitorControl stopped.')
 
 	return self
 end

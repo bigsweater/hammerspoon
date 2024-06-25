@@ -5,6 +5,7 @@
 
 local module = {}
 module.linearmouse = nil
+local logger = hs.logger.new('linearmouse', 'info')
 
 function module:new()
 	local instance = {}
@@ -44,6 +45,8 @@ function module.handler(event)
 end
 
 function module:isBasiliskAttached()
+	logger.i('Checking for Basilisk...')
+
 	local devices = hs.usb.attachedDevices()
 
 	if not devices then
@@ -59,20 +62,30 @@ function module:isBasiliskAttached()
 		end
 	end
 
+	if attached then
+		logger.i('Basilisk found.')
+	else
+		logger.i('No Basilisk found.')
+	end
+
 	return attached
 end
 
 function module:startLinearMouse()
+	logger.i('Starting LinearMouse...')
 	self.linearmouse = hs.application.open('LinearMouse', 0, true)
 	self.linearmouse:hide()
+	logger.i('LinearMouse started.')
 
 	return self
 end
 
 function module:stopLinearMouse()
+	logger.i('Stopping LinearMouse...')
 	local lm = self.linearmouse or hs.application.get('LinearMouse')
 
 	if not lm then
+		logger.i('LinearMouse not started. Exiting.')
 		self.linearmouse = nil
 		return self
 	end
@@ -82,6 +95,8 @@ function module:stopLinearMouse()
 	end
 
 	self.linearmouse = nil
+
+	logger.i('Stopped LinearMouse.')
 
 	return self
 end
