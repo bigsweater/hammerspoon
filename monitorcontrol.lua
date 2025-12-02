@@ -37,6 +37,12 @@ function module:startMonitorControl()
 	logger.i('Starting MonitorControl...')
 
 	self.mc = hs.application.open('MonitorControl', 0, true)
+
+	if not self.mc then
+		logger.e('Failed to open MonitorControl')
+		return self
+	end
+
 	self.mc:hide()
 
 	logger.i('MonitorControl started.')

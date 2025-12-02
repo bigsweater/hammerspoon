@@ -74,6 +74,12 @@ end
 function module:startLinearMouse()
 	logger.i('Starting LinearMouse...')
 	self.linearmouse = hs.application.open('LinearMouse', 0, true)
+
+	if not self.linearmouse then
+		logger.e('Failed to open LinearMouse')
+		return self
+	end
+
 	self.linearmouse:hide()
 	logger.i('LinearMouse started.')
 
