@@ -20,13 +20,15 @@ local function setupModes(modes)
 		end)
 
 		for _, hotkey in pairs(group.hotkeys) do
-			group.mode:bind(hotkey.mod, hotkey.key, hotkey.callback, function()
+			group.mode:bind(hotkey.mod, hotkey.key, nil, function()
+				hotkey.callback()
 				hyperKeyPressed = true
 				group.mode:exit()
+				Hyper:exit()
 			end)
 		end
 
-		Hyper:bind(group.mod, group.key, function()
+		Hyper:bind(group.mod, group.key, nil, function()
 			hyperKeyPressed = true
 			group.mode:enter()
 		end)
