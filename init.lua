@@ -11,8 +11,9 @@ Lunette:bindHotkeys(spoon.Lunette.defaultHotkeys)
 local hyperKeyPressed = false
 
 local function setupModes(modes)
-	for _, group in pairs(modes) do
-		group.mode = Hyper:new()
+	for _, grp in pairs(modes) do
+		local group = grp -- local copy for closures
+		group.mode = hs.hotkey.modal.new({}, nil)
 		group.mode:bind({}, "escape", function()
 			hyperKeyPressed = true
 			group.mode:exit()
