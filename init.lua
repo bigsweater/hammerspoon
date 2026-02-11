@@ -17,7 +17,7 @@ local function setupModes(modes)
 		group.mode:bind({}, "escape", function()
 			hyperKeyPressed = true
 			group.mode:exit()
-			hs.alert("Exited mode " .. group.alias or group.key)
+			hs.alert("Exited mode " .. (group.alias or group.key))
 		end)
 
 		for _, hotkey in pairs(group.hotkeys) do
@@ -25,16 +25,54 @@ local function setupModes(modes)
 				hotkey.callback()
 				hyperKeyPressed = true
 				group.mode:exit()
-				Hyper:exit()
 			end)
 		end
 
 		Hyper:bind(group.mod, group.key, nil, function()
 			hyperKeyPressed = true
+			Hyper:exit()
 			group.mode:enter()
 		end)
 	end
 end
+
+-- Caffeinate state
+local caffeinateMenubar = nil
+local caffeinateActive = false
+local toggleCaffeinate
+
+local function updateCaffeinateMenubar()
+	if not caffeinateMenubar then
+		caffeinateMenubar = hs.menubar.new()
+		caffeinateMenubar:setClickCallback(function()
+			toggleCaffeinate()
+		end)
+	end
+
+	if caffeinateActive then
+		caffeinateMenubar:setTitle("😵‍💫")
+		caffeinateMenubar:setTooltip("Caffeinated (click to toggle)")
+	else
+		caffeinateMenubar:setTitle("🫩")
+		caffeinateMenubar:setTooltip("Uncaffeinated (click to toggle)")
+	end
+end
+
+toggleCaffeinate = function()
+	caffeinateActive = not caffeinateActive
+	hs.caffeinate.set("displayIdle", caffeinateActive)
+	hs.caffeinate.set("systemIdle", caffeinateActive)
+	hs.caffeinate.set("system", caffeinateActive)
+	updateCaffeinateMenubar()
+
+	if caffeinateActive then
+		hs.alert("Caffeinated 😵‍💫")
+	else
+		hs.alert("Uncaffeinated 🫩")
+	end
+end
+
+updateCaffeinateMenubar()
 
 local modes = {
 	{
@@ -183,6 +221,20 @@ return appname as text
 					hs.alert("Reloading...")
 					hs.reload()
 				end,
+			},
+		},
+	},
+	{
+		-- System
+		alias = "System",
+		key = "s",
+		mod = {},
+		hotkeys = {
+			{
+				key = "c",
+				label = "Toggle Caffeinate",
+				mod = {},
+				callback = toggleCaffeinate,
 			},
 		},
 	},
