@@ -196,6 +196,16 @@ return appname as text
 					end
 				end,
 			},
+			{
+				key = "u",
+				label = "Music",
+				appName = "Music",
+				mod = {},
+				callback = function()
+					hs.alert("Music")
+					App.launchOrFocus("Music")
+				end,
+			},
 		},
 	},
 	{
